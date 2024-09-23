@@ -33,4 +33,20 @@ public class IOController {
         int value = userInput % 10;
         return new ElementDto(row, col, value);
     }
+
+    public boolean playAgain() {
+        while (true) {
+            System.out.println("Press enter to play again or 'X' to exit ");
+            try {
+                String userInput = SCANNER.nextLine();
+                if (userInput.equalsIgnoreCase("X")) {
+                    System.exit(1);
+                } else if (userInput.isEmpty()) {
+                    return true;
+                }
+            } catch (InputMismatchException ignored) {
+                System.out.println("Please press enter or 'X' to exit ");
+            }
+        }
+    }
 }
