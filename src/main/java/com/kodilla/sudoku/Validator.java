@@ -4,35 +4,40 @@ import java.util.List;
 
 public class Validator {
 
-    private SudokuBoard board;
+    private final SudokuBoard board;
 
-    public Validator(SudokuBoard board) {
+    public Validator(final SudokuBoard board) {
         this.board = board;
     }
 
-    public boolean validateRows(ElementDto element) {
+    private boolean validateRow(ElementDto element) {
         List<SudokuRow> rows = board.getRows();
-
-       return rows.stream()
+        return rows.stream()
                 .skip(element.row() - 1)
                 .limit(1)
-                .flatMap(n -> n.getElements().stream())
+                .flatMap(e -> e.getElements().stream())
                 .noneMatch(e -> e.getValue() == element.value());
     }
 
-    public boolean validateColumns(ElementDto element) {
+    private boolean validateColumn(ElementDto element) {
         List<SudokuRow> rows = board.getRows();
-
         return rows.stream()
-                .flatMap(n -> n.getElements().stream()
-                        .skip(element.column() - 1)
-                        .limit(1))
+                .map(row -> row.getElements().get(element.column() - 1))
                 .noneMatch(e -> e.getValue() == element.value());
     }
 
-    public boolean validateRowCols(ElementDto element) {
+    private boolean validateSection(ElementDto element) {
         List<SudokuRow> rows = board.getRows();
+        return rows.stream()
+                .skip((element.row() -1) / 3 * 3)
+                .limit(3)
+                .flatMap(e -> e.getElements().stream()
+                        .skip((element.column() -1) / 3 * 3)
+                        .limit(3))
+                .noneMatch(e -> e.getValue() == element.value());
+    }
 
-        return validateRows(element) && validateColumns(element);
+    public boolean validate(ElementDto element) {
+        return validateRow(element) && validateColumn(element) && validateSection(element);
     }
 }
