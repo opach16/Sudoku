@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SudokuElement {
+public class Element {
 
     private int value;
     public final static int EMPTY = -1;
-    private List<Integer> possibleValue = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+    private List<Integer> possibleValues = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
 
-    public SudokuElement() {
+    public Element() {
         this.value = EMPTY;
     }
 
@@ -22,8 +22,16 @@ public class SudokuElement {
         this.value = value;
     }
 
-    public List<Integer> getPossibleValue() {
-        return possibleValue;
+    public List<Integer> getPossibleValues() {
+        return possibleValues;
+    }
+
+    public void setPossibleValues(List<Integer> possibleValues) {
+        this.possibleValues = possibleValues;
+    }
+
+    public void removePossibleValue(int value) {
+        possibleValues.remove(Integer.valueOf(value));
     }
 
     @Override

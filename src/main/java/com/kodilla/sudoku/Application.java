@@ -3,11 +3,10 @@ package com.kodilla.sudoku;
 public class Application {
 
     public static void main(String[] args) {
-
         boolean gameFinished = false;
         while (!gameFinished) {
-            SudokuGame theGame = new SudokuGame();
-            theGame.play();
+            Game theGame = new Game();
+            theGame.playWithUserInput(new Board());
             gameFinished = theGame.resolveSudoku();
         }
     }
